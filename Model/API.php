@@ -1,4 +1,5 @@
 <?php
+namespace Model;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,7 +47,8 @@ class API
             curl_setopt($this->curl,CURLOPT_URL,$pUrl);
             $result = curl_exec($this->curl);
             $info = curl_getinfo($this->curl);
-            return array('content'=>json_decode($result, true), 'header'=>$info);
+            return new Callback(json_decode($result, true), $info);
+            //return array('content'=>json_decode($result, true), 'header'=>$info);
         } catch (Exception $e)
         {
             var_dump($e);
@@ -65,12 +67,18 @@ class API
         $return = array();
         foreach ($params as $item)
         {
-            array_push($return, array($item['value'] => $this->getAnnonce($item['value']), $this->getStock($item['schema'])));
+            array_push(
+                $return, 
+                array(
+                    $item['value'] => $this->getAnnonce(
+                            $item['value'], 
+                            $this->getStock($item['schema'])
+                        )
+                )
+            );
         }
 
         return $return;
-        $criterion = $stock."/".trim($idweb);
-        return $this->get($criterion);
     }
 
     public function getAll($query)

@@ -18,21 +18,18 @@
     </form>
 
     <?php
+    require_once 'Model/Callback.php';
     require_once 'Model/API.php';
-     $api = new API();
+    //use Model\API;
+     $api = new \Model\API();
     $test = $api->getAll('loi');
 
-    $string = 'http://schemas.journal-officiel.gouv.fr/schemabook/boamp/Boamp_v110.xsd';
-    $pos = strpos($string, '.xsd');
-    if ($pos)
-    {
-        $stock = substr($string,$pos-4,4);
-    }
-
-    var_dump($stock, $test['content']);
-    $results = $api->getAnnonce('11-40989', 'v110');
+    //$items = $test['content']['item'];
+    //$items = array_splice($items, count($items)-10);
+    var_dump($test);
+    //$results = $api->getAnnonces($items);
     $api->closeCurl();
-    var_dump($results);
+    //var_dump($results);
     ?>
 </body>
 </html>
